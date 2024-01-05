@@ -1,0 +1,52 @@
+---
+
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<h1>Astro</h1>
+		<form>
+			<div>
+				<label　for="js-name">名前</label>
+				<input type="text" name="name" id="js-name" />
+			</div>
+			<div>
+				<label for="js-furigana">ふりがな</label>
+				<input type="text" name="furigana" id="js-furigana" />
+			</div>
+			<button type="button" id="js-submitbtn">送信する</button>
+		</form>
+	
+		<script is:inline>
+			const submitBtn = document.getElementById("js-submitbtn");
+			const input_name = document.getElementById("js-name");
+			const input_furigana = document.getElementById("js-furigana");
+			submitBtn.addEventListener("click", (event) => {
+				const formData = {
+					name: input_name.value,
+					furigana: input_furigana.value,
+				};
+				fetch(new Request("http://localhost:3002/contact"), {
+					method: "POST",
+					body: JSON.stringify(formData),
+					mode: "cors",
+					headers: { "Content-Type": "application/json" },
+				})
+					.then((response) => {
+						console.log(response);
+						window.alert("送信できました。");
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			});
+		</script>
+	</body>
+</html>
